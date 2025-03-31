@@ -53,10 +53,26 @@ button:hover {
 
 ul {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+li {
+  padding: 15px;
+}
+
+a {
+  color: black;
+}
+
+a:hover {
+  color: rgb(75, 74, 74);
 }
 
 
-@media (min-width: 600px) {
+@media (min-width: 790px) {
   #app {
     width: 70%;
     padding: 20px;
