@@ -31,10 +31,22 @@ function printCourses(courses: Course[]): void {
   }
 }
 
-//funktion för att hämta lagrade kurser från localstorage
+//funktion för att ta bort kurser som är lagrade i listan
+function removeCourses() : void {
+  localStorage.removeItem("courses");
+  printCourses([]);
+}
+
+  const removeButton = document.getElementById("removeCourses") as HTMLButtonElement;
+
+//eventlyssnare för ta bort knapp, tar bort kurserna från listan
+removeButton.addEventListener("click", () => {
+  removeCourses();
+})
+
+//funktion för att hämta lagrade kurser från localstorage, om det inte finns något att returnera kommer det en tom array
 function storedCourses(): Course[] {
-  const savedCourse = localStorage.getItem("courses");
-  return savedCourse ? JSON.parse(savedCourse) : [];
+  return JSON.parse(localStorage.getItem("courses") || "[]");
 }
 
 //funtion för att lagra kurser som skrivs in till localstorage
@@ -57,7 +69,7 @@ courseForm.addEventListener("submit", (event) => {
   //hämtar lagrade kurser
   const courses = storedCourses();
 
-  //Validerar för att kontrollera att kurskoden är unik och lägger till ett meddelande om kursen redan finns
+  //Validerar för att kontrollera att kurskoden är unik och lägger till ett alert-meddelande om kursen redan finns
   if(courses.some((course) => course.code.toLowerCase() === codeInput.value.toLowerCase())) {
     alert("Denna kurs finns redan i listan, testa en annan kod!");
     return;
