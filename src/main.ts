@@ -6,6 +6,10 @@ interface Course {
   syllabus: string;
 }
 
+//så att kurserna som lagts till i listan syns och inte försvinner när man laddar om sidan
+window.onload = () => {
+  printCourses(storedCourses());
+}
 
 //funktion för att skriva ut kursinfo
 function printCourses(courses: Course[]): void {
@@ -18,13 +22,24 @@ function printCourses(courses: Course[]): void {
       courseList.innerHTML = `
       <p><strong>Kurskod:</strong> ${course.code}</p>
       <p><strong>Kursnamn:</strong> ${course.name}</p>
-      <p><strong>Progression:</strong> ${course.progression}</p> - 
-      <a href="${course.syllabus}"<strong>Kursplan:</strong></a>
+      <p><strong>Progression:</strong> ${course.progression}</p> 
+      <a href="${course.syllabus}" target="_blank"><strong>Kursplan</strong></a>
       `;
 
       listCourse.appendChild(courseList);
     });
   }
+}
+
+//funktion för att hämta lagrade kurser från localstorage
+function storedCourses(): Course[] {
+  const savedCourse = localStorage.getItem("courses");
+  return savedCourse ? JSON.parse(savedCourse) : [];
+}
+
+//funtion för att lagra kurser som skrivs in till localstorage
+function saveCourses(courses: Course[]): void {
+  localStorage.setItem("courses", JSON.stringify(courses));
 }
 
 //Hämta DOM för formulär och kursinfo
@@ -39,6 +54,15 @@ courseForm.addEventListener("submit", (event) => {
   const progressionInput = document.getElementById("progression") as HTMLSelectElement;
   const syllabusInput = document.getElementById("syllabus") as HTMLInputElement; 
 
+  //hämtar lagrade kurser
+  const courses = storedCourses();
+
+  //Validerar för att kontrollera att kurskoden är unik och lägger till ett meddelande om kursen redan finns
+  if(courses.some((course) => course.code.toLowerCase() === codeInput.value.toLowerCase())) {
+    alert("Denna kurs finns redan i listan, testa en annan kod!");
+    return;
+  }
+
   //skapar ny kurs
   const newCourse: Course = {
     code: codeInput.value,
@@ -47,5 +71,8 @@ courseForm.addEventListener("submit", (event) => {
     syllabus: syllabusInput.value,
   };
 
-
+  //Den första lägger till den kursen som skrivs in, den andra sparar den i listan till localstorage, den tredje uppdaterar listan med kurser
+  courses.push(newCourse);
+  saveCourses(courses);
+  printCourses(courses);
 });
