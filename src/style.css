@@ -1,3 +1,4 @@
+/*main styles for page*/
 *{
   margin: 0;
   padding: 0;
@@ -8,6 +9,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/*style for app*/
 #app {
   width: 80%;
   margin: 10px auto;
@@ -21,6 +23,7 @@ h2 {
   font-size: 1.5em;
 }
 
+/*center of the page and adding styling to form*/
 form {
   display: flex;
   flex-direction: column;
@@ -37,6 +40,7 @@ select {
   width: 80px;
 }
 
+/*styling for button, and adding hover effect*/
 button {
   background-color: #ebddaf;
   cursor: pointer;
@@ -51,6 +55,7 @@ button:hover {
   text-decoration: underline;
 }
 
+/*styling for where the courses is displayed*/
 ul {
   list-style: none;
   display: flex;
@@ -72,7 +77,7 @@ a:hover {
   color: rgb(75, 74, 74);
 }
 
-
+/*styles for bigger screens*/
 @media (min-width: 790px) {
   #app {
     width: 70%;
